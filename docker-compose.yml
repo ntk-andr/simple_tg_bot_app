@@ -1,0 +1,51 @@
+services:
+  tg_bot:
+    container_name: tg_bot
+    build:
+      context: .
+      dockerfile: ./docker/tg_bot.Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+#    command: ls -la
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./src/tg_bot
+          target: /src/tg_bot
+        - action: rebuild
+          path: ./poetry.lock
+
+
+  admin:
+    container_name: tg_admin
+    build:
+      context: .
+      dockerfile: ./docker/admin.Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./src/admin
+          target: /app
+        - action: rebuild
+          path: ./poetry.lock
+
+  db:
+    container_name: tg_db
+    image: postgres:15
+    ports:
+      - "127.0.0.1:5432:5432"
+    env_file:
+      - ./src/.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
