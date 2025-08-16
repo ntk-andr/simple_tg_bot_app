@@ -5,7 +5,6 @@ from sqladmin import Admin, ModelView
 
 from notes.models import Categories, ShortNotes
 
-from notes.router import router as notes_router
 from core.logger_wrapper import LoggerWrapper
 
 logger = LoggerWrapper(__name__)
@@ -33,4 +32,3 @@ class CategoryAdmin(ModelView, model=Categories):
 admin.add_view(CategoryAdmin)
 admin.add_view(ShortNoteAdmin)
 
-app.include_router(notes_router)

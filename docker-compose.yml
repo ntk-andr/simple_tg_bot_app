@@ -3,7 +3,7 @@ services:
     container_name: tg_bot
     build:
       context: .
-      dockerfile: ./docker/tg_bot.Dockerfile
+      dockerfile: ./docker/python.Dockerfile
     env_file:
       - .env
     depends_on:
@@ -16,13 +16,13 @@ services:
           target: /src/tg_bot
         - action: rebuild
           path: ./poetry.lock
-
+    command: python -m tg_bot
 
   admin:
     container_name: tg_admin
     build:
       context: .
-      dockerfile: ./docker/admin.Dockerfile
+      dockerfile: ./docker/python.Dockerfile
     env_file:
       - .env
     depends_on:
@@ -36,6 +36,7 @@ services:
           target: /app
         - action: rebuild
           path: ./poetry.lock
+    command: python -m admin.app
 
   db:
     container_name: tg_db

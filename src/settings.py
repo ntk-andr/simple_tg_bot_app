@@ -7,6 +7,8 @@ class Settings(BaseSettings):
 
     LOG_LEVEL: int
 
+    DB_ECHO: bool
+
     TG_TOKEN: str
 
     POSTGRES_HOST: str

@@ -1,5 +1,6 @@
 import logging
 import os.path
+import sys
 
 from settings import settings
 
@@ -9,7 +10,7 @@ LOG_LEVEL = settings.LOG_LEVEL
 
 
 class LoggerWrapper:
-    def __init__(self, name: str, level: int = logging.DEBUG, mode: str = 'a+'):
+    def __init__(self, name: str, level: int = logging.DEBUG, mode: str = 'a'):
         self.filename = None
         self.path = None
         name = name.lower()
@@ -17,7 +18,7 @@ class LoggerWrapper:
         self.logger = logging.getLogger(name=name)
         self.logger.setLevel(level=level)
 
-        stream_handler = logging.StreamHandler()
+        stream_handler = logging.StreamHandler(stream=sys.stdout)
 
         self.filename = f'{self.path}/{name}.log'
         file_handler = logging.FileHandler(filename=self.filename, mode=mode)
